@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 
-//import "./post-list-item.css";
+import "./post-list-item.css";
 
 const PostListItem = () => {
   return (
