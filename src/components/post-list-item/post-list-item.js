@@ -1,4 +1,6 @@
+//Parent
 import React, { Component } from "react";
+import PostButtons from "../post-buttons";
 
 import "./post-list-item.css";
 
@@ -9,48 +11,44 @@ export default class PostListItem extends Component {
       important: false,
       like: false,
     };
-    this.onImportant = this.onImportant.bind(this); //Привязка контекста,т.к он теряется (внутри render событие onclick)
-    this.onLike = this.onLike.bind(this);
   }
 
-  onImportant() {
+  onImportantCallback = (childData) => {
     this.setState(({ important }) => ({
-      important: !important,
+      important: childData,
     }));
-  }
+  };
 
-  onLike() {
+  onLikeCallback = (childData) => {
     this.setState(({ like }) => ({
-      like: !like,
+      like: childData,
     }));
-  }
+  };
 
   render() {
-    const { label } = this.props;
     const { important, like } = this.state;
 
+    const { label } = this.props;
+
     let classNames = "app-list-item d-flex justify-content-between";
+
+    //here i use 'important' and 'like' from child component that i want to use.
+
     if (important) {
       classNames += " important";
     }
     if (like) {
       classNames += " like";
     }
+
     return (
       <div className={classNames}>
         <span className="app-list-item-label">{label}</span>
         <div className="d-flex justify-content-center align-items-center">
-          <button
-            type="button"
-            className="btn-star btn-sm"
-            onClick={this.onImportant}
-          >
-            <i className="fa fa-star"></i>
-          </button>
-          <button type="button" className="btn-trash btn-sm">
-            <i className="fa fa-trash-o"></i>
-          </button>
-          <i className="fa fa-heart" onClick={this.onLike}></i>
+          <PostButtons
+            onImportantCallback={this.onImportantCallback}
+            onLikeCallback={this.onLikeCallback}
+          />
         </div>
       </div>
     );
