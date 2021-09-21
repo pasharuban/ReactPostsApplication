@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 
 import AppHeader from "../app-header";
 import SearchPanel from "../search-panel";
@@ -14,23 +14,30 @@ const AppBlock = styled.div`
   max-width: 800px;
 `;
 
-const App = () => {
-  const data = [
-    { label: "Going to learn React", important: true, id: "afv" },
-    { label: "That is so good", important: false, id: "vbdfs" },
-    { label: "I need a break...", important: false, id: "dsdvb" },
-  ];
-  return (
-    <AppBlock>
-      <AppHeader />
-      <div className="search-panel d-flex">
-        <SearchPanel />
-        <PostStatusFilter />
-      </div>
-      <PostList posts={data} onDelete={(id) => console.log(id)} />
-      <PostAddForm />
-    </AppBlock>
-  );
-};
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: [
+        { label: "Going to learn React", important: true, id: "afv" },
+        { label: "That is so good", important: false, id: "vbdfs" },
+        { label: "I need a break...", important: false, id: "dsdvb" },
+      ],
+    };
+  }
 
-export default App;
+  render() {
+    const { data } = this.state;
+    return (
+      <AppBlock>
+        <AppHeader />
+        <div className="search-panel d-flex">
+          <SearchPanel />
+          <PostStatusFilter />
+        </div>
+        <PostList posts={data} onDelete={(id) => console.log(id)} />
+        <PostAddForm />
+      </AppBlock>
+    );
+  }
+}
