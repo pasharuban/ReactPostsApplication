@@ -19,11 +19,32 @@ export default class App extends Component {
     super(props);
     this.state = {
       data: [
-        { label: "Going to learn React", important: true, id: "afv" },
-        { label: "That is so good", important: false, id: "vbdfs" },
-        { label: "I need a break...", important: false, id: "dsdvb" },
+        { label: "Going to learn React", important: true, id: "aa" },
+        { label: "That is so good", important: false, id: "bb" },
+        { label: "I need a break...", important: false, id: "cc" },
       ],
     };
+    this.deleteItem = this.deleteItem.bind(this);
+  }
+
+  deleteItem(id) {
+    this.setState(({ data }) => {
+      const index = data.findIndex((elem) => elem.id === id);
+
+      //так делать нельзя,потому что мы физически изменяем стейт(напрямую)
+      /*data.splice(index, 1);
+      return {
+        data: data,
+      };*/
+
+      const before = data.slice(0, index);
+      const after = data.slice(index + 1);
+
+      const newArr = [...before, ...after];
+      return {
+        data: newArr,
+      };
+    });
   }
 
   render() {
@@ -35,7 +56,7 @@ export default class App extends Component {
           <SearchPanel />
           <PostStatusFilter />
         </div>
-        <PostList posts={data} onDelete={(id) => console.log(id)} />
+        <PostList posts={data} onDelete={this.deleteItem} />
         <PostAddForm />
       </AppBlock>
     );
