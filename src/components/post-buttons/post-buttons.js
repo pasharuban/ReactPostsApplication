@@ -31,6 +31,7 @@ class PostButtons extends Component {
   }
 
   render() {
+    const { onDelete } = this.props;
     return (
       <>
         <button
@@ -40,7 +41,7 @@ class PostButtons extends Component {
         >
           <i className="fa fa-star"></i>
         </button>
-        <button type="button" className="btn-trash btn-sm">
+        <button type="button" className="btn-trash btn-sm" onClick={onDelete}>
           <i className="fa fa-trash-o"></i>
         </button>
         <i className="fa fa-heart" onClick={this.onLike}></i>

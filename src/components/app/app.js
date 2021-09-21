@@ -16,9 +16,9 @@ const AppBlock = styled.div`
 
 const App = () => {
   const data = [
-    { label: "Going to learn React", important: true, id: 1 },
-    { label: "That is so good", important: false, id: 2 },
-    { label: "I need a break...", important: false, id: 3 },
+    { label: "Going to learn React", important: true, id: "afv" },
+    { label: "That is so good", important: false, id: "vbdfs" },
+    { label: "I need a break...", important: false, id: "dsdvb" },
   ];
   return (
     <AppBlock>
@@ -27,7 +27,7 @@ const App = () => {
         <SearchPanel />
         <PostStatusFilter />
       </div>
-      <PostList posts={data} />
+      <PostList posts={data} onDelete={(id) => console.log(id)} />
       <PostAddForm />
     </AppBlock>
   );
