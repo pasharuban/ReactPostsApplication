@@ -1,25 +1,46 @@
-import React from "react";
+import React, { Component } from "react";
 
 import "./post-add-form.css";
 
-const PostAddForm = ({ onAdd }) => {
-  return (
-    <div className="bottom-panel d-flex">
-      <input
-        type="text"
-        placeholder="О чем вы думаете сейчас?"
-        className="form-control new-post-label"
-      />
-      <button
-        type="submit"
-        className="btn btn-outline-secondary"
-        onClick={() => onAdd("Hey,it is a new Post!")}
-      >
-        {" "}
-        Добавить
-      </button>
-    </div>
-  );
-};
+export default class PostAddForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      label: "",
+    };
 
-export default PostAddForm;
+    this.onValueChange = this.onValueChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  onValueChange(e) {
+    this.setState({ label: e.target.value });
+  }
+  onSubmit(e) {
+    e.preventDefault();
+    const { onAdd } = this.props;
+    const { label } = this.state;
+    if (label) onAdd(label);
+    else alert("Заполните форму!");
+    this.setState({ label: "" });
+  }
+
+  render() {
+    return (
+      <form className="bottom-panel d-flex" onSubmit={this.onSubmit}>
+        <input
+          type="text"
+          placeholder="О чем вы думаете сейчас?"
+          className="form-control new-post-label"
+          onChange={this.onValueChange}
+          value={this.state.label}
+          required
+        />
+        <button type="submit" className="btn btn-outline-secondary">
+          {" "}
+          Добавить
+        </button>
+      </form>
+    );
+  }
+}
