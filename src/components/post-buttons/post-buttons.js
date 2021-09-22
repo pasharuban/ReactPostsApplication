@@ -27,7 +27,8 @@ class PostButtons extends Component {
     await this.setState(({ like }) => ({
       like: !like,
     }));
-    this.props.onLikeCallback(this.state.like);
+    this.props.onLikeCallback(this.state.like); //передаем в родительскую функцию(пропс) инфо о состоянии
+    this.props.onToggleLike("id");
   }
 
   render() {
@@ -37,6 +38,7 @@ class PostButtons extends Component {
         <button
           type="button"
           className="btn-star btn-sm"
+          //onClick={this.onImportant}
           onClick={this.onImportant}
         >
           <i className="fa fa-star"></i>
@@ -44,7 +46,11 @@ class PostButtons extends Component {
         <button type="button" className="btn-trash btn-sm" onClick={onDelete}>
           <i className="fa fa-trash-o"></i>
         </button>
-        <i className="fa fa-heart" onClick={this.onLike}></i>
+        <i
+          className="fa fa-heart"
+          //onClick={this.onLike}
+          onClick={this.onLike}
+        ></i>
       </>
     );
   }
