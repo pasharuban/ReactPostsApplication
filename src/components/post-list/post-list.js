@@ -3,7 +3,7 @@ import React from "react";
 import PostListItem from "../post-list-item";
 import "./post-list.css";
 
-const PostList = ({ posts, onDelete, onToggleLike }) => {
+const PostList = ({ posts, onDelete, onToggleImportant, onToggleLike }) => {
   const elements = posts.map((item) => {
     // Простой способ проверки на объект + содержится ли в нем информация
     if (typeof item === "object" && isEmpty(item)) {
@@ -14,6 +14,7 @@ const PostList = ({ posts, onDelete, onToggleLike }) => {
           <PostListItem
             {...itemProps}
             onDelete={() => onDelete(id)}
+            onToggleImportant={() => onToggleImportant(id)}
             onToggleLike={() => onToggleLike(id)}
           />
         </li>

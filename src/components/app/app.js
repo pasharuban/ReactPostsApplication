@@ -39,33 +39,11 @@ export default class App extends Component {
         },
       ],
     };
+
     this.deleteItem = this.deleteItem.bind(this);
     this.addItem = this.addItem.bind(this);
+    this.onToggleImportant = this.onToggleImportant.bind(this);
     this.onToggleLike = this.onToggleLike.bind(this);
-  }
-
-  deleteItem(id) {
-    this.setState(({ data }) => {
-      const index = data.findIndex((elem) => elem.id === id);
-
-      //так делать нельзя,потому что мы физически изменяем стейт(напрямую)
-      /*data.splice(index, 1);
-      return {
-        data: data,
-      };*/
-
-      const before = data.slice(0, index);
-      const after = data.slice(index + 1);
-
-      const newArr = [...before, ...after];
-      return {
-        data: newArr,
-      };
-    });
-  }
-
-  generateUnicId() {
-    return "id" + Date.now();
   }
 
   addItem(body) {
@@ -84,46 +62,71 @@ export default class App extends Component {
     });
   }
 
+  updateDataState(data, index, newItem = "") {
+    const before = [...data.slice(0, index)];
+    const after = data.slice(index + 1);
+    let newArr = [];
 
+    if (newItem) newArr = [...before, newItem, ...after];
+    else newArr = [...before, ...after];
 
-  onToggleLike(id) {
-    console.log(id);
+    return {
+      data: newArr,
+    };
+  }
+
+  generateUnicId() {
+    return "id" + Date.now();
+  }
+
+  deleteItem(id) {
+    this.setState(({ data }) => {
+      const index = data.findIndex((elem) => elem.id === id);
+
+      //так делать нельзя,потому что мы физически изменяем стейт(напрямую)
+      /*data.splice(index, 1);
+      return {
+        data: data,
+      };*/
+
+      return this.updateDataState(data, index);
+    });
+  }
+
+  onToggleImportant(id) {
     this.setState(({ data }) => {
       const index = data.findIndex((elem) => elem.id === id);
 
       const newItem = {
-        label: data[index].label,
-        important: data[index].important,
-        liked: !data[index].liked,
-        id: data[index].id,
+        ...data[index],
+        important: !data[index].important,
       };
 
-      const before = [...data.slice(0, index), newItem];
-      const after = data.slice(index + 1);
-
-      const newArr = [...before, ...after];
-      return {
-        data: newArr,
-      };
+      return this.updateDataState(data, index, newItem);
     });
-    console.log(this.state.data);
   }
 
-  countLikedPosts() {
-    return this.state.data.reduce((count, elem) => {
-      if (elem.liked) ++count;
-      return count;
-    }, 0);
+  onToggleLike(id) {
+    this.setState(({ data }) => {
+      const index = data.findIndex((elem) => elem.id === id);
+
+      const newItem = {
+        ...data[index],
+        liked: !data[index].liked,
+      };
+
+      return this.updateDataState(data, index, newItem);
+    });
   }
 
   render() {
     const { data } = this.state;
+    const amountOfPosts = data.length;
+    const likedPosts = data.filter((elem) => elem.liked).length;
+
     return (
       <AppBlock>
-        <AppHeader
-          amountOfPosts={this.state.data.length}
-          likedPosts={this.countLikedPosts()}
-        />
+        <AppHeader amountOfPosts={amountOfPosts} likedPosts={likedPosts} />
         <div className="search-panel d-flex">
           <SearchPanel />
           <PostStatusFilter />
@@ -131,6 +134,7 @@ export default class App extends Component {
         <PostList
           posts={data}
           onDelete={this.deleteItem}
+          onToggleImportant={this.onToggleImportant}
           onToggleLike={this.onToggleLike}
         />
         <PostAddForm onAdd={this.addItem} />
