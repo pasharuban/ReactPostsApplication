@@ -19,12 +19,25 @@ export default class App extends Component {
     super(props);
     this.state = {
       data: [
-        { label: "Going to learn React", important: true, id: "aa" },
-        { label: "That is so good", important: false, id: "bb" },
-        { label: "I need a break...", important: false, id: "cc" },
+        {
+          label: "Going to learn React",
+          important: true,
+          id: "id" + Date.now + Math.random(0.5),
+        },
+        {
+          label: "That is so good",
+          important: false,
+          id: "id" + Date.now + Math.random(0.5),
+        },
+        {
+          label: "I need a break...",
+          important: false,
+          id: "id" + Date.now + Math.random(0.5),
+        },
       ],
     };
     this.deleteItem = this.deleteItem.bind(this);
+    this.addItem = this.addItem.bind(this);
   }
 
   deleteItem(id) {
@@ -47,6 +60,25 @@ export default class App extends Component {
     });
   }
 
+  generateUnicId() {
+    return "id" + Date.now + Math.random(0.5);
+  }
+
+  addItem(body) {
+    const newItem = {
+      label: body,
+      important: false,
+      id: this.generateUnicId(),
+    };
+
+    this.setState(({ data }) => {
+      const newArr = [...data, newItem];
+      return {
+        data: newArr,
+      };
+    });
+  }
+
   render() {
     const { data } = this.state;
     return (
@@ -57,7 +89,7 @@ export default class App extends Component {
           <PostStatusFilter />
         </div>
         <PostList posts={data} onDelete={this.deleteItem} />
-        <PostAddForm />
+        <PostAddForm onAdd={this.addItem} />
       </AppBlock>
     );
   }
