@@ -20,8 +20,7 @@ export default class PostAddForm extends Component {
     e.preventDefault();
     const { onAdd } = this.props;
     const { label } = this.state;
-    if (label) onAdd(label);
-    else alert("Заполните форму!");
+    onAdd(label);
     this.setState({ label: "" });
   }
 
