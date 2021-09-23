@@ -5,6 +5,7 @@ import SearchPanel from "../search-panel";
 import PostStatusFilter from "../post-status-filter";
 import PostList from "../post-list";
 import PostAddForm from "../post-add-form";
+import Pagination from "../pagination/pagination";
 
 import "./app.css";
 import styled from "styled-components";
@@ -37,9 +38,91 @@ export default class App extends Component {
           liked: false,
           id: "id3",
         },
+        {
+          label: "Going to learn React",
+          important: false,
+          liked: false,
+          id: "id4",
+        },
+        {
+          label: "That is so good",
+          important: false,
+          liked: false,
+          id: "id5",
+        },
+        {
+          label: "I need a break...",
+          important: false,
+          liked: false,
+          id: "id6",
+        },
+        {
+          label: "Going to learn React",
+          important: false,
+          liked: false,
+          id: "id7",
+        },
+        {
+          label: "That is so good",
+          important: false,
+          liked: false,
+          id: "id8",
+        },
+        {
+          label: "I need a break...",
+          important: false,
+          liked: false,
+          id: "id9",
+        },
+        {
+          label: "Going to learn React",
+          important: false,
+          liked: false,
+          id: "id10",
+        },
+        {
+          label: "That is so good",
+          important: false,
+          liked: false,
+          id: "id11",
+        },
+        {
+          label: "I need a break...",
+          important: false,
+          liked: false,
+          id: "id12",
+        },
+        {
+          label: "Going to learn React",
+          important: false,
+          liked: false,
+          id: "id13",
+        },
+        {
+          label: "That is so good",
+          important: false,
+          liked: false,
+          id: "id14",
+        },
+        {
+          label: "I need a break...",
+          important: false,
+          liked: false,
+          id: "id16",
+        },
+        {
+          label: "I need a break...",
+          important: false,
+          liked: false,
+          id: "id17",
+        },
       ],
       term: "",
       filter: "all",
+      pagination: {
+        id: 0,
+        visiblePostsAmount: 4,
+      },
     };
 
     this.deleteItem = this.deleteItem.bind(this);
@@ -48,6 +131,7 @@ export default class App extends Component {
     this.onToggleLike = this.onToggleLike.bind(this);
     this.onUpdateSearch = this.onUpdateSearch.bind(this);
     this.onFilterSelect = this.onFilterSelect.bind(this);
+    this.onChangeVisiblePosts = this.onChangeVisiblePosts.bind(this);
   }
 
   addItem(body) {
@@ -145,12 +229,36 @@ export default class App extends Component {
     this.setState({ filter: filter });
   }
 
+  onChangeVisiblePosts(id, visiblePostsAmount) {
+    this.setState({
+      pagination: { id: id, visiblePostsAmount: visiblePostsAmount },
+    });
+  }
+
+  changeVisiblePoststPagination(items) {
+    const visiblePosts = [];
+
+    const { id, visiblePostsAmount } = this.state.pagination;
+
+    let i = id * visiblePostsAmount;
+
+    const limit = i + visiblePostsAmount;
+
+    for (; i < limit; i++) {
+      if (this.state.data[i]) visiblePosts.push(this.state.data[i]);
+    }
+    return visiblePosts;
+  }
+
   render() {
     const { data, term, filter } = this.state;
     const amountOfPosts = data.length;
     const likedPosts = data.filter((elem) => elem.liked).length;
 
-    const visiblePosts = this.filterPosts(this.searchPost(data, term), filter);
+    const visiblePosts = this.filterPosts(
+      this.searchPost(this.changeVisiblePoststPagination(data), term),
+      filter
+    );
 
     return (
       <AppBlock>
@@ -162,12 +270,18 @@ export default class App extends Component {
             onFilterSelect={this.onFilterSelect}
           />
         </div>
-        <PostList
-          posts={visiblePosts}
-          onDelete={this.deleteItem}
-          onToggleImportant={this.onToggleImportant}
-          onToggleLike={this.onToggleLike}
-        />
+        <div className="post-list-pagination">
+          <PostList
+            posts={visiblePosts}
+            onDelete={this.deleteItem}
+            onToggleImportant={this.onToggleImportant}
+            onToggleLike={this.onToggleLike}
+          />
+          <Pagination
+            data={data}
+            onChangeVisiblePosts={this.onChangeVisiblePosts}
+          ></Pagination>
+        </div>
         <PostAddForm onAdd={this.addItem} />
       </AppBlock>
     );
