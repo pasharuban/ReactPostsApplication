@@ -1,0 +1,40 @@
+@mixin flexColumnCenterBetween {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+$marginTopBottom20: 20px 0;
+$borderShadowColor: rgb(201, 201, 201);
+
+.postBlock {
+  width: 100%;
+  max-width: 900px;
+  margin: 30px auto;
+  text-align: justify;
+
+  @include flexColumnCenterBetween;
+
+  box-shadow: 3px 3px 12px $borderShadowColor;
+  border-left: 1px solid $borderShadowColor;
+  border-top: 1px solid $borderShadowColor;
+  border-radius: 5px;
+
+  padding: 50px;
+
+  .title-of-post {
+    margin: $marginTopBottom20;
+    color: black;
+  }
+  .body-of-post {
+    margin: $marginTopBottom20;
+    color: rgb(56, 56, 56);
+    font-size: 20px;
+  }
+
+  .post-block-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+}

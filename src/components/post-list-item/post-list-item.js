@@ -1,6 +1,8 @@
 import React from "react";
 import PostButtons from "../post-buttons";
 
+import { Link } from "react-router-dom";
+
 import "./post-list-item.css";
 
 const PostListItem = ({
@@ -22,7 +24,9 @@ const PostListItem = ({
 
   return (
     <div className={classNames}>
-      <span className="app-list-item-label">{label}</span>
+      <Link className="app-list-item-label" to="/post">
+        <div className="app-list-item-label">{label}</div>
+      </Link>
       <div className="d-flex justify-content-center align-items-center">
         <PostButtons
           onDelete={onDelete}

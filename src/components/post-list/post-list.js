@@ -12,6 +12,7 @@ const PostList = ({ posts, onDelete, onToggleImportant, onToggleLike }) => {
       return (
         <li key={id} className="list-group-item">
           <PostListItem
+            postId={id}
             {...itemProps}
             onDelete={() => onDelete(id)}
             onToggleImportant={() => onToggleImportant(id)}

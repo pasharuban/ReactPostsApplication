@@ -4,7 +4,7 @@ import "./post-buttons.css";
 
 const PostButtons = ({ onDelete, onToggleLike, onToggleImportant }) => {
   return (
-    <>
+    <div className="buttons-container">
       <button
         type="button"
         className="btn-star btn-sm"
@@ -16,7 +16,7 @@ const PostButtons = ({ onDelete, onToggleLike, onToggleImportant }) => {
         <i className="fa fa-trash-o"></i>
       </button>
       <i className="fa fa-heart" onClick={onToggleLike}></i>
-    </>
+    </div>
   );
 };
 

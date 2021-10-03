@@ -49,7 +49,10 @@ export default class Pagination extends Component {
 
   render() {
     const { data } = this.props;
-    const paginationBtns = this.createPaginationButtons(data, 4);
+    const paginationBtns = this.createPaginationButtons(
+      data,
+      this.props.visiblePostsAmount
+    );
     return <div className="pagination--block">{paginationBtns}</div>;
   }
 }
