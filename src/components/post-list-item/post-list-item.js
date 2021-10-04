@@ -10,6 +10,7 @@ const PostListItem = ({
   onDelete,
   onToggleImportant,
   onToggleLike,
+  onSelectedItem,
   important,
   liked,
 }) => {
@@ -24,7 +25,7 @@ const PostListItem = ({
 
   return (
     <div className={classNames}>
-      <Link className="app-list-item-label" to="/post">
+      <Link onClick={onSelectedItem} className="app-list-item-label" to="/post">
         <div className="app-list-item-label">{label}</div>
       </Link>
       <div className="d-flex justify-content-center align-items-center">
